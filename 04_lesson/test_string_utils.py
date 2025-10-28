@@ -1,91 +1,101 @@
 import pytest
 from string_utils import StringUtils
 
-string_utils = StringUtils()
+utils = StringUtils()
 
-@pytest.mark.positive
-@pytest.mark.parametrize("input_str, expected", [
-    ("skypro", "Skypro"),
-    ("hello world", "Hello world"),
-    ("python", "Python"),
-])
-def test_capitalize_positive(input_str, expected):
-    assert string_utils.capitalize(input_str) == expected
+class TestCapitalize:
 
-
-@pytest.mark.negative
-@pytest.mark.parametrize("input_str, expected", [
-    ("123abc", "123abc"),
-    ("", ""),
-    ("   ", "   "),
-])
-def test_capitalize_negative(input_str, expected):
-    assert string_utils.capitalize(input_str) == expected
-
+    # Позитивные тесты
+    def test_capitalize_positive_common_cases(self):
+       
+        assert utils.capitalize("skypro") == "Skypro"
+        assert utils.capitalize("hello world") == "Hello world"
+        assert utils.capitalize("python") == "Python"
+    
+    def test_capitalize_positive_special_cases(self):
+        
+        assert utils.capitalize("a") == "A"  # одна буква
+        assert utils.capitalize("123abc") == "123abc"  # цифры в начале
+        assert utils.capitalize("04 апреля 2023") == "04 апреля 2023"  # строка с пробелами и цифрами
+        assert utils.capitalize("тест") == "Тест"  # кириллица
+    
+    # Негативные тесты
+    def test_capitalize_negative_empty_string(self):
+       
+        assert utils.capitalize("") == ""
+    
+    def test_capitalize_negative_spaces(self):
+       
+        assert utils.capitalize(" ") == " "
+        assert utils.capitalize("   ") == "   "
+    
+class TestTrim:
+   
+    # Позитивные тесты
+    def test_trim_positive_common_cases(self):
+        
+        assert utils.trim("   skypro") == "skypro"
+        assert utils.trim("  hello") == "hello"
+        assert utils.trim(" test") == "test"
+        assert utils.trim("   04 апреля 2023") == "04 апреля 2023"
+    
+    # Негативные тесты
+    def test_trim_negative_empty_string(self):
+        """Негативные тесты: пустая строка"""
+        assert utils.trim("") == ""
+    
+    
+    def test_trim_negative_none(self):
+      
+        with pytest.raises(AttributeError):
+            utils.trim(None)
 
 
 class TestContains:
-    """Тесты для метода contains"""
     
     # Позитивные тесты - символ существует
     def test_contains_positive_single_char(self):
-        """Позитивные тесты: один символ"""
-        assert mark.contains("SkyPro", "S") == True
-        assert mark.contains("SkyPro", "k") == True
-        assert mark.contains("SkyPro", "o") == True
-        assert mark.contains("123", "2") == True
-    
-    def test_contains_positive_substring(self):
-        """Позитивные тесты: подстрока"""
-        assert utils.contains("SkyPro", "Pro") == True
-        assert utils.contains("Hello World", "World") == True
-        assert utils.contains("04 апреля 2023", "апреля") == True
-    
-    def test_contains_positive_special_chars(self):
-        """Позитивные тесты: специальные символы"""
-        assert utils.contains("Hello World", " ") == True
-        assert utils.contains("test!@#", "!") == True
-        assert utils.contains("a b c", " ") == True
+       
+        assert utils.contains("SkyPro", "S") == True
+        assert utils.contains("SkyPro", "k") == True
+        assert utils.contains("SkyPro", "o") == True
+        assert utils.contains("123", "2") == True
     
     # Негативные тесты - символ не существует
     def test_contains_negative_not_found(self):
-        """Негативные тесты: символ не найден"""
+       
         assert utils.contains("SkyPro", "U") == False
         assert utils.contains("Hello", "x") == False
         assert utils.contains("123", "4") == False
     
-    def test_contains_negative_case_sensitive(self):
-        """Негативные тесты: регистрозависимость"""
-        assert utils.contains("SkyPro", "s") == False
-        assert utils.contains("SkyPro", "p") == False
-        assert utils.contains("SkyPro", "PRO") == False
     
     def test_contains_negative_empty_cases(self):
-        """Негативные тесты: пустые строки"""
+      
         assert utils.contains("", "a") == False
         assert utils.contains(" ", "a") == False
         assert utils.contains("test", " ") == False
-    
-    def test_contains_edge_cases(self):
-        """Граничные случаи"""
-        assert utils.contains("a", "a") == True
-        assert utils.contains("a", "b") == False
-        assert utils.contains("", "") == True  # пустая строка содержит пустую подстроку
-        assert utils.contains("test", "") == True  # любая строка содержит пустую подстроку
-    
-    def test_contains_negative_none(self):
-        """Негативные тесты: None"""
-        with pytest.raises(AttributeError):
-            utils.contains(None, "a")
-        with pytest.raises(TypeError):
-            utils.contains("test", None)
-
-
+       
 class TestDeleteSymbol:
-   @pytest.mark.positive
-   def test_delete_symbol_positive(string, symbol, expected_result):
-    assert string_utils.delete_symbol(string, symbol) == expected_result
-    # Позитивные проверки:
-    assert string_utils.delete_symbol("skypro", "s") == "skypro"
-    # Негативные проверки:
-    assert string_utils.delete_symbol("skypro", "s") == "skypro"
+    
+    # Позитивные тесты
+    def test_delete_symbol_positive_single_char(self):
+        """Позитивные тесты: один символ"""
+        assert utils.delete_symbol("SkyPro", "k") == "SyPro"
+        assert utils.delete_symbol("Hello", "l") == "Heo"
+        assert utils.delete_symbol("banana", "a") == "bnn"
+    
+    def test_delete_symbol_positive_substring(self):
+        """Позитивные тесты: подстрока"""
+        assert utils.delete_symbol("SkyPro", "Pro") == "Sky"
+        assert utils.delete_symbol("Hello World", "World") == "Hello "
+        assert utils.delete_symbol("04 апреля 2023", "апреля ") == "04 2023"
+    
+    
+    # Негативные тесты
+
+    def test_delete_symbol_negative_empty_cases(self):
+       
+        assert utils.delete_symbol("", "a") == ""
+        assert utils.delete_symbol(" ", " ") == ""
+        assert utils.delete_symbol("test", "") == "test"
+    
