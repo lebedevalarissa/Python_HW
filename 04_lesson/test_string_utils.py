@@ -23,16 +23,17 @@ def test_capitalize_negative(input_str, expected):
     assert string_utils.capitalize(input_str) == expected
 
 
+
 class TestContains:
     """Тесты для метода contains"""
     
     # Позитивные тесты - символ существует
     def test_contains_positive_single_char(self):
         """Позитивные тесты: один символ"""
-        assert utils.contains("SkyPro", "S") == True
-        assert utils.contains("SkyPro", "k") == True
-        assert utils.contains("SkyPro", "o") == True
-        assert utils.contains("123", "2") == True
+        assert mark.contains("SkyPro", "S") == True
+        assert mark.contains("SkyPro", "k") == True
+        assert mark.contains("SkyPro", "o") == True
+        assert mark.contains("123", "2") == True
     
     def test_contains_positive_substring(self):
         """Позитивные тесты: подстрока"""
@@ -81,59 +82,10 @@ class TestContains:
 
 
 class TestDeleteSymbol:
-    """Тесты для метода delete_symbol"""
-    
-    # Позитивные тесты
-    def test_delete_symbol_positive_single_char(self):
-        """Позитивные тесты: один символ"""
-        assert utils.delete_symbol("SkyPro", "k") == "SyPro"
-        assert utils.delete_symbol("Hello", "l") == "Heo"
-        assert utils.delete_symbol("banana", "a") == "bnn"
-    
-    def test_delete_symbol_positive_substring(self):
-        """Позитивные тесты: подстрока"""
-        assert utils.delete_symbol("SkyPro", "Pro") == "Sky"
-        assert utils.delete_symbol("Hello World", "World") == "Hello "
-        assert utils.delete_symbol("04 апреля 2023", "апреля ") == "04 2023"
-    
-    def test_delete_symbol_positive_special_chars(self):
-        """Позитивные тесты: специальные символы"""
-        assert utils.delete_symbol("Hello World", " ") == "HelloWorld"
-        assert utils.delete_symbol("test!@#", "!") == "test@#"
-        assert utils.delete_symbol("a b c", " ") == "abc"
-    
-    def test_delete_symbol_positive_all_occurrences(self):
-        """Позитивные тесты: все вхождения"""
-        assert utils.delete_symbol("aaa", "a") == ""
-        assert utils.delete_symbol("test test", "t") == "es es"
-        assert utils.delete_symbol("ababab", "ab") == ""
-    
-    # Негативные тесты
-    def test_delete_symbol_negative_not_found(self):
-        """Негативные тесты: символ не найден"""
-        assert utils.delete_symbol("SkyPro", "X") == "SkyPro"
-        assert utils.delete_symbol("Hello", "x") == "Hello"
-        assert utils.delete_symbol("test", "xyz") == "test"
-    
-    def test_delete_symbol_negative_empty_cases(self):
-        """Негативные тесты: пустые строки"""
-        assert utils.delete_symbol("", "a") == ""
-        assert utils.delete_symbol(" ", " ") == ""
-        assert utils.delete_symbol("test", "") == "test"
-    
-    def test_delete_symbol_negative_case_sensitive(self):
-        """Негативные тесты: регистрозависимость"""
-        assert utils.delete_symbol("SkyPro", "s") == "SkyPro"
-        assert utils.delete_symbol("SkyPro", "PRO") == "SkyPro"
-    
-    def test_delete_symbol_edge_cases(self):
-        """Граничные случаи"""
-        assert utils.delete_symbol("", "") == ""  # удаление пустой строки из пустой
-        assert utils.delete_symbol("aaaa", "aa") == ""  # перекрывающиеся подстроки
-    
-    def test_delete_symbol_negative_none(self):
-        """Негативные тесты: None"""
-        with pytest.raises(AttributeError):
-            utils.delete_symbol(None, "a")
-        with pytest.raises(TypeError):
-            utils.delete_symbol("test", None)
+   @pytest.mark.positive
+   def test_delete_symbol_positive(string, symbol, expected_result):
+    assert string_utils.delete_symbol(string, symbol) == expected_result
+    # Позитивные проверки:
+    assert string_utils.delete_symbol("skypro", "s") == "skypro"
+    # Негативные проверки:
+    assert string_utils.delete_symbol("skypro", "s") == "skypro"
