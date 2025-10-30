@@ -91,3 +91,11 @@ class TestDeleteSymbol:
         assert utils.delete_symbol("04 апреля 2023", "апреля ") == "04 2023"
     
     
+    # Негативные тесты
+
+    def test_delete_symbol_negative_empty_cases(self):
+       
+        assert utils.delete_symbol("", "a") == ""
+        assert utils.delete_symbol(" ", " ") == ""
+        assert utils.delete_symbol("test", "") == "test"
+    
