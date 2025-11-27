@@ -8,15 +8,20 @@ from webdriver_manager.chrome import ChromeDriverManager
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
 driver.get("https://bonigarcia.dev/selenium-webdriver-java/loading-images.html")
-    
-element = WebDriverWait(driver,20).until(
-  EC.presence_of_element_located ((By.CLASS_NAME, "col-12")))
 
-img_element = WebDriverWait(driver,20).until(
-  EC.presence_of_element_located ((By.CSS_SELECTOR, "#award")))
-    
+wait = WebDriverWait(driver,40)
+elements = wait.until(
+    EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#image-container img"))
+)
+
+print(len(elements))
+
+img_element = wait.until(
+    EC.presence_of_element_located((By.CSS_SELECTOR, "#award"))
+)
+
 src_value = img_element.get_attribute("src")
-    
+
 print(src_value)
-    
+
 driver.quit()
